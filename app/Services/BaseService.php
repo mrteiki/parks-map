@@ -6,7 +6,7 @@ class BaseService {
     protected $model;
 
     public function create($data) {
-        $this->model->create($data);
+        return $this->model->create($data);
     }
 
     public function read() {
@@ -14,9 +14,9 @@ class BaseService {
         return $items;
     }
 
-    public function get($id, $slug) {
+    public function get($id, $slug, $load = []) {
         if ($slug) {
-            $item = $this->model::where("slug", $id)->firstOrFail();
+            $item = $this->model::where("slug", $id)->with($load)->firstOrFail();
         } else {
             $item = $this->model::findOrFail($id);
         }
